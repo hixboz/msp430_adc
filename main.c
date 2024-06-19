@@ -1,77 +1,11 @@
-//#include <msp430.h>
-//
-//volatile unsigned int adc_value;
-//
-//void configureADC(void);
-//void configureClocks(void);
-//void configurePorts(void);
-//
-//int main(void)
-//{
-//    WDTCTL = WDTPW | WDTHOLD;   // Stop watchdog timer
-//    PM5CTL0 &= ~LOCKLPM5;
-//    configureClocks();
-//    configurePorts();
-//    configureADC();
-//
-//    __bis_SR_register(GIE);     // Enable global interrupts
-//
-//    while(1)
-//    {
-//        ADC12CTL0 |= ADC12SC;   // Start conversion
-//        __delay_cycles(8000);
-//        __bis_SR_register(GIE);  // Enter LPM0 with interrupts enabled
-//    }
-//}
-//
-//void configureClocks(void)
-//{
-//    // Assuming default clock settings (DCO at 1MHz)
-//}
-//
-//void configurePorts(void)
-//{
-//    // Configure P9.1 as analog input
-//    P9SEL1 |= BIT1;  // P9.1 as ADC input
-//    P9SEL0 |= BIT1;
-//}
-//
-//void configureADC(void)
-//{
-//    // Configure ADC12
-//    ADC12CTL0 = ADC12SHT0_2 | ADC12ON;             // Sampling time, ADC12 on
-//    ADC12CTL1 = ADC12SHP;                          // Use sampling timer
-//    ADC12CTL2 = ADC12RES_2;                        // 12-bit conversion results
-//    ADC12MCTL0 = ADC12INCH_1 | ADC12VRSEL_0;       // A1 ADC input select; Vref=AVCC
-//    ADC12IER0 = ADC12IE0;                          // Enable ADC conv complete interrupt
-//    ADC12CTL0 |= ADC12ENC;                         // Enable conversions
-//}
-//// ADC interrupt service routine
-//#pragma vector=ADC12_VECTOR
-//__interrupt void ADC_ISR(void) {
-//    switch(__even_in_range(ADC12IV, ADC12IV_ADC12RDYIFG))
-//    {
-//        case ADC12IV_NONE:        break;        // No interrupt
-//        case ADC12IV_ADC12OVIFG:  break;        // ADC12MEMx Overflow
-//        case ADC12IV_ADC12TOVIFG: break;        // Conversion time overflow
-//        case ADC12IV_ADC12HIIFG:  break;        // ADC12BHI
-//        case ADC12IV_ADC12LOIFG:  break;        // ADC12BLO
-//        case ADC12IV_ADC12INIFG:  break;        // ADC12BIN
-//        case ADC12IV_ADC12IFG0:                 // ADC12MEM0 Interrupt
-//            adc_value = ADC12MEM0;  // Read conversion result
-//            __bic_SR_register_on_exit(LPM0_bits);  // Exit LPM0
-//            break;
-//        default: break;
-//    }
-//}
 
 
 
 #include <msp430.h>
 #include <stdint.h>
 
-volatile uint16_t adc_values[8]; // ADC deðerlerini saklayacak dizi
-volatile uint8_t adc_index = 0;  // ADC dizisi indeksi
+volatile uint16_t adc_values[8];
+volatile uint8_t adc_index = 0;
 
 void led_config();
 void led_on();
